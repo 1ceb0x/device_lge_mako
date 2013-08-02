@@ -31,6 +31,7 @@ TARGET_KRAIT_BIONIC_PLDOFFS := 10
 TARGET_KRAIT_BIONIC_PLDTHRESH := 10
 TARGET_KRAIT_BIONIC_BBTHRESH := 64
 TARGET_KRAIT_BIONIC_PLDSIZE := 64
+ARGET_MPDECISION_BOOST_SOCKET := /dev/socket/mpdecision/touchboost
 
 TARGET_NO_BOOTLOADER := true
 
@@ -84,6 +85,9 @@ TARGET_USES_C2D_COMPOSITION := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_RECOVERY_UI_LIB := librecovery_ui_mako
 
+# use the new recovery.fstab format
++RECOVERY_FSTAB_VERSION=2 
+
 TARGET_RECOVERY_FSTAB = device/lge/mako/fstab.mako
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 23068672 # 22M
@@ -102,37 +106,45 @@ BOARD_LIB_DUMPSTATE := libdumpstate.mako
 
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
 TARGET_NO_RPC := true
+TARGET_PROVIDES_GPS_LOC_API := true 
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/lge/mako
 
 BOARD_SEPOLICY_DIRS := \
        device/lge/mako/sepolicy
 
-BOARD_SEPOLICY_UNION := \
-       app.te \
-       bluetooth.te \
-       compatibility.te \
-       device.te \
-       domain.te \
-       drmserver.te \
-       file.te \
-       file_contexts \
-       hci_init.te \
-       init_shell.te \
-       keystore.te \
-       mediaserver.te \
-       kickstart.te \
-       nfc.te \
-       rild.te \
-       surfaceflinger.te \
-       system.te \
-       ueventd.te \
-       wpa.te
-
+BOARD_SEPOLICY_UNION += \
+	file_contexts \
+	property_contexts \
+	te_macros \
+	bluetooth_loader.te \
+	bridge.te \
+	camera.te \
+	conn_init.te \
+	device.te \
+	dhcp.te \
+	domain.te \
+	drmserver.te \
+	file.te \
+	kickstart.te \
+	init.te \
+	mediaserver.te \
+	mpdecision.te \
+	netmgrd.te \
+	property.te \
+	qmux.te \
+	rild.te \
+	rmt.te \
+	sensors.te \
+	surfaceflinger.te \
+	system.te \
+	tee.te \
+	thermald.te \
+	ueventd.te \
+	wpa_supplicant.te
 
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_HAVE_LOW_LATENCY_AUDIO := true
-
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 -include vendor/lge/mako/BoardConfigVendor.mk
